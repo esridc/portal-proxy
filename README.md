@@ -2,16 +2,6 @@
 
 To streamline development against ArcGIS Enterprise, the Hub team utilizes a Docker container that runs nginx, configured as to proxy _some_ requests to an ArcGIS Enterprise instance, and read from a local mapped drive for others.
 
-## Workflow:
-
-- Hub developer adds an entry to their hosts file for the remote Enterprise instance they want to work against
-- i.e `127.0.0.1 portal.hubdev.arcgis.com`
-- Hub developer starts the related docker container
-- `docker-compose -f portal.hubdev.yaml up -d --build --force-recreate --remove-orphans`
-- Hub developer opens `https://portal.hubdev.arcgis.com/portal/home` and the home app loads because those requests are proxied through to the actual `portal.hubdev.arcgis.com` system
-- Hub developer starts up the Hub app locally, in "portal mode",
-- Hub developer opens `https://portal.hubdev.arcgis.com/portal/apps/sites` which loads the build output files from local disk.
-
 ## What's in this repo
 
 We've extracted the proxy out of the Hub application repo to streamline solving the current issues.
@@ -48,3 +38,15 @@ Current issue here is that nginx will return a 504 for _some_ requests that shou
 - this should open the "fake" sites app, which is just a html file in `./dist/sites/portal/apps/sites`
 
 This used to work just fine, but recently stopped. Unclear why.
+
+## Developer Workflow:
+
+This is the general developer workflow we've been using in the past...
+
+- Hub developer adds an entry to their hosts file for the remote Enterprise instance they want to work against
+- i.e `127.0.0.1 portal.hubdev.arcgis.com`
+- Hub developer starts the related docker container
+- `docker-compose -f container.yaml up -d --build --force-recreate --remove-orphans`
+- Hub developer opens `https://portal.hubdev.arcgis.com/portal/home` and the home app loads because those requests are proxied through to the actual `portal.hubdev.arcgis.com` system
+- Hub developer starts up the Hub app locally, in "portal mode",
+- Hub developer opens `https://portal.hubdev.arcgis.com/portal/apps/sites` which loads the build output files from local disk
